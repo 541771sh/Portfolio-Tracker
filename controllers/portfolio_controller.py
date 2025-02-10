@@ -72,17 +72,18 @@ class PortfolioController:
 
     def display_portfolio_summary(self):
         """Show total portfolio value, gain/loss, return %, volatility, and Sharpe ratio"""
-        total_value = self.portfolio.total_value()
-        total_gain = self.portfolio.total_gain_loss()
-        return_pct = self.portfolio.portfolio_return()
-        volatility = self.portfolio.portfolio_volatility()
-        sharpe = self.portfolio.sharpe_ratio()
+        summary = self.portfolio.portfolio_summary()
         
-        asset_weights = self.portfolio.asset_weights()
-        class_weights = self.portfolio.asset_class_weights()
-        sector_weights = self.portfolio.sector_weights()
-        
-        CLIView.display_portfolio_summary(total_value, total_gain, return_pct, volatility, sharpe, asset_weights, class_weights, sector_weights)
+        CLIView.display_portfolio_summary(
+            summary["total_value"],
+            summary["total_gain"],
+            summary["return_pct"],
+            summary["volatility"],
+            summary["sharpe_ratio"],
+            summary["asset_weights"],
+            summary["class_weights"],
+            summary["sector_weights"]
+            )
 
     def display_portfolio_performance_graph(self):
         """Show portfolio performance over time by tracking total value."""
