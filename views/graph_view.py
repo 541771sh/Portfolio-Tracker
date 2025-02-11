@@ -17,7 +17,7 @@ class GraphView:
 
         plt.xlabel("Date")
         plt.ylabel("Price (USD)")
-        plt.title("📊 Current & Historical Asset Prices")
+        plt.title(" Current & Historical Asset Prices")
         plt.legend()
         plt.grid()
         plt.show()
@@ -29,7 +29,7 @@ class GraphView:
         portfolio_value.plot(color='blue', label='Portfolio Value', linewidth=2)
         plt.xlabel("Date")
         plt.ylabel("Total Portfolio Value (USD)")
-        plt.title("📈 Portfolio Performance Over Time")
+        plt.title(" Portfolio Performance Over Time")
         plt.legend()
         plt.grid()
         plt.show()

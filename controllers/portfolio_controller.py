@@ -30,7 +30,7 @@ class PortfolioController:
         asset = Asset(ticker, sector, asset_class, quantity, purchase_price)
         asset.update_price(fetch_current_price(ticker))
         self.portfolio.add_asset(asset)
-        print(f"✅ Successfully added {ticker} to portfolio with sector '{sector}' and asset class '{asset_class}'.")
+        print(f"Successfully added {ticker} to portfolio with sector '{sector}' and asset class '{asset_class}'.")
 
     def edit_asset(self):
         """Allow the user to edit an asset's quantity or purchase price."""
@@ -43,18 +43,18 @@ class PortfolioController:
         self.portfolio.remove_asset(ticker)
         
     def update_prices(self):
-        """Fetch and update the current prices for all assets."""
-        print("\n🔄 Updating asset prices...\n")
+        """Fetch and update the latest available prices for all assets."""
+        print("\n Updating asset prices...\n")
 
         for asset in self.portfolio.assets:
             new_price = fetch_current_price(asset.ticker)
             if new_price is not None:
-                print(f"{asset.ticker}: {asset.current_price} → {new_price}")
+                print(f" {asset.ticker}: {asset.current_price} → {new_price} ✅")
                 asset.update_price(new_price)
             else:
-                print(f"⚠️ Failed to fetch price for {asset.ticker}")
+                print(f"Failed to fetch price for {asset.ticker}")
 
-        print("✅ Prices updated.\n")
+        print("Prices updated.\n")
 
     def display_portfolio(self):
         """Show portfolio summary"""
@@ -66,7 +66,7 @@ class PortfolioController:
         summary = self.portfolio.portfolio_summary()
 
         if summary is None:
-            print("⚠️ No portfolio data available.")
+            print("No portfolio data available.")
             return
     
         CLIView.display_portfolio_summary(
@@ -75,9 +75,6 @@ class PortfolioController:
             summary["asset_class_weights"],
             summary["sector_weights"]
         )
-
-        
-
 
 
     def display_portfolio_performance_graph(self):
@@ -89,7 +86,7 @@ class PortfolioController:
                 historical_data[asset.ticker] = history
 
         if not historical_data:
-            print("⚠️ No historical data available.")
+            print(" No historical data available.")
             return
 
         portfolio_value = pd.DataFrame(historical_data).sum(axis=1)
@@ -105,11 +102,31 @@ class PortfolioController:
             if history is not None and not history.empty:
                 price_data[ticker] = history
             else:
-                print(f"⚠️ No historical data available for {ticker}.")
+                print(f" No historical data available for {ticker}.")
         
             current_prices[ticker] = fetch_current_price(ticker)
             
             if price_data:
                 GraphView.plot_asset_prices(price_data, current_prices)
             else:
-                print("❌ No valid historical price data available.")
+                print(" No valid historical price data available.")
+
+    def display_risk_metrics(self):
+        """Show portfolio Sharpe & Sortino ratio."""
+        risk_metrics = self.portfolio.calculate_portfolio_risk_metrics()
+
+        if risk_metrics:
+            print(f" Portfolio Risk Analysis:")
+            print(f" Sharpe Ratio: {risk_metrics['sharpe_ratio']:.3f}")
+            print(f" Sortino Ratio: {risk_metrics['sortino_ratio']:.3f}")
+            print(f" Portfolio Volatility: {risk_metrics['volatility']:.3%}")
+        else:
+            print(" Not enough data to calculate risk metrics.")
+
+    def run_monte_carlo(self):
+        """Run Monte Carlo simulation on the portfolio."""
+        self.portfolio.monte_carlo_simulation()
+
+    def optimize_portfolio(self):
+        """Find the optimal portfolio allocation."""
+        self.portfolio.optimize_portfolio()
