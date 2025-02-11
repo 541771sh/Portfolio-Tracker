@@ -9,13 +9,13 @@ This is a command-line application for analyzing asset portfolios. It supports a
    git clone https://github.com/YOUR_GITHUB_USERNAME/portfolio_tracker.git
    cd portfolio_tracker
    
-2. Install dependencies
-    ```bash
-  pip install -r requirements.txt
+2. Install dependencies 
+     ```bash
+   pip install -r requirements.txt
 
 3. Run the application 
-    ```bash
-  python main.py
+     ```bash
+   python main.py   
 
 # Use the application
 
